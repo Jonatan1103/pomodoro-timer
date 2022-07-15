@@ -1,4 +1,4 @@
-import { HeaderContainer } from '../styles'
+import { HeaderContainer } from './styles'
 import logo from '../../assets/logo.svg'
 
 import { Timer, Scroll } from 'phosphor-react'
