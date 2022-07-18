@@ -1,4 +1,4 @@
-import { HistoryContainer, HistoryList } from "./styles";
+import { HistoryContainer, HistoryList, Status } from "./styles";
 
 export function History() {
   return (
@@ -15,37 +15,94 @@ export function History() {
               <th>Status</th>
             </tr>
           </thead>
-
           <tbody>
             <tr>
               <td>tarefa</td>
               <td>20 minutos</td>
               <td>Há cerca de 2 meses</td>
-              <td>concluido</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
             </tr>
             <tr>
               <td>tarefa</td>
               <td>20 minutos</td>
               <td>Há cerca de 2 meses</td>
-              <td>concluido</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
             </tr>
             <tr>
               <td>tarefa</td>
               <td>20 minutos</td>
               <td>Há cerca de 2 meses</td>
-              <td>concluido</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
             </tr>
             <tr>
               <td>tarefa</td>
               <td>20 minutos</td>
               <td>Há cerca de 2 meses</td>
-              <td>concluido</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
             </tr>
             <tr>
               <td>tarefa</td>
               <td>20 minutos</td>
               <td>Há cerca de 2 meses</td>
-              <td>concluido</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="red">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
+            </tr>
+            <tr>
+              <td>tarefa</td>
+              <td>20 minutos</td>
+              <td>Há cerca de 2 meses</td>
+              <td>
+                <Status statusColor="green">Concluído</Status>
+              </td>
             </tr>
           </tbody>
         </table>
