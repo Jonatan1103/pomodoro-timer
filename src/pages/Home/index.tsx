@@ -10,7 +10,7 @@ import { differenceInSeconds } from 'date-fns'
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
   minutesAmount: zod.number()
-    .min(5, 'A tarefa deve ter no minimo um intervalo de 5 min.')
+    .min(1, 'A tarefa deve ter no minimo um intervalo de 5 min.')
     .max(60, 'A tarefa deve ter no maximo um intervalo de 60 min.'),
 })
 
@@ -25,6 +25,7 @@ interface Cycle {
   minutesAmount: number
   startDate: Date
   interruptedDate?: Date
+  finishedDate?: Date
 }
 
 export function Home() {
@@ -40,52 +41,7 @@ export function Home() {
     }
   })
 
-  const activeCycle = cycles.find( cycle => cycle.id === activeCycleId )
-
-  useEffect(() => {
-    let interval: number
-
-
-    if(activeCycle) {
-      interval = setInterval(() => {
-        setAmountSecondsPassed(
-          differenceInSeconds(new Date(), activeCycle.startDate))
-      }, 1000)
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [activeCycle])
-
-  function handleCreateNewCycle(data: NewCycleFormData) {
-    const id = String(new Date().getTime())
-
-    const newCycle: Cycle = {
-      id,
-      task: data.task,
-      minutesAmount: data.minutesAmount,
-      startDate: new Date(),
-    }
-
-    setCycles( state => [...state, newCycle])
-    setActiveCycleId(id)
-    setAmountSecondsPassed(0)
-
-    reset()
-  }
-
-  function handleInterruptedCycle() {
-    setCycles(cycles.map(cycle => {
-      if (cycle.id === activeCycleId) {
-        return { ...cycle, interruptedDate: new Date() }
-      } else {
-        return cycle
-      }
-    }))
-
-    setActiveCycleId(null)
-  }
+  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
 
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
@@ -97,6 +53,67 @@ export function Home() {
   const seconds = String(secondsAmount).padStart(2, '0')
 
   useEffect(() => {
+    let interval: number
+
+    if (activeCycle) {
+      interval = setInterval(() => {
+        const secondsDifference = differenceInSeconds(
+          new Date(),
+          activeCycle.startDate,
+        )
+        if (secondsDifference >= totalSeconds) {
+          setCycles(state => state.map(cycle => {
+            if (cycle.id === activeCycleId) {
+              return { ...cycle, finishedDate: new Date }
+            } else {
+              return cycle
+            }
+          }))
+
+          setAmountSecondsPassed(totalSeconds)
+          clearInterval(interval)
+        } else {
+          setAmountSecondsPassed(secondsDifference)
+        }
+
+      }, 1000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [activeCycle, totalSeconds, activeCycleId])
+
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    const id = String(new Date().getTime())
+
+    const newCycle: Cycle = {
+      id,
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+      startDate: new Date(),
+    }
+
+    setCycles(state => [...state, newCycle])
+    setActiveCycleId(id)
+    setAmountSecondsPassed(0)
+
+    reset()
+  }
+
+  function handleInterruptedCycle() {
+    setCycles(state => state.map(cycle => {
+      if (cycle.id === activeCycleId) {
+        return { ...cycle, interruptedDate: new Date() }
+      } else {
+        return cycle
+      }
+    }))
+
+    setActiveCycleId(null)
+  }
+
+  useEffect(() => {
     if (activeCycle) {
       document.title = `${minutes}:${seconds}`
     }
@@ -105,17 +122,14 @@ export function Home() {
   const task = watch('task')
   const isSubmitDisable = !task
 
-  console.log(cycles);
-  
-
   return (
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
         <FormContainer>
           <label htmlFor="task">Vou trabalhar em</label>
-          <TaskInput 
-            id="task" 
-            type="text" 
+          <TaskInput
+            id="task"
+            type="text"
             placeholder="Dê um nome para o seu projeto"
             disabled={!!activeCycle}
             list="task-suggestions"
@@ -133,13 +147,13 @@ export function Home() {
           <label htmlFor="minutesAmount">Durante</label>
           <MinutesAmountInput
             id="minutesAmount"
-            type="number" 
+            type="number"
             placeholder="00"
             step={5}
-            min={0}
+            min={1}
             max={60}
             disabled={!!activeCycle}
-            {...register('minutesAmount', {valueAsNumber: true})}
+            {...register('minutesAmount', { valueAsNumber: true })}
           />
 
           <span>minutos.</span>
