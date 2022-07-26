@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import zod from 'zod'
 
-import { MinutesAmountInput } from '../styles';
+import { MinutesAmountInput } from './styles';
 import { FormContainer, TaskInput } from './styles';
 
 const newCycleFormValidationSchema = zod.object({

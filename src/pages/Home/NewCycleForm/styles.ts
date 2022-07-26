@@ -30,7 +30,6 @@ const BaseInput = styled.input`
   }
 `
 
-
 export const TaskInput = styled(BaseInput)`
   flex: 1;
   
