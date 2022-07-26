@@ -2,7 +2,7 @@ import { HomeContainer, StartCountdownButton, StopCountdownButton } from "./styl
 
 import { HandPalm, Play } from 'phosphor-react';
 
-import { createContext, useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { NewCycleForm } from './NewCycleForm';
 import { Countdown } from './Countdown';
@@ -37,12 +37,17 @@ export function Home() {
 
   const { handleSubmit, watch, reset } = newCycleForm 
 
+  function handleCreateNewCycle(data: NewCycleFormData) {
+    createNewCycle(data)
+    reset()
+  }
+
   const task = watch('task')
   const isSubmitDisable = !task
 
   return (
     <HomeContainer>
-      <form onSubmit={handleSubmit(createNewCycle)} action="">
+      <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
         <FormProvider {...newCycleForm}>
           <NewCycleForm />
         </FormProvider>
